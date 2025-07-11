@@ -1,0 +1,113 @@
+#################################
+# Build results
+#################################
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+*.log
+
+#################################
+# User-specific files
+#################################
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+#################################
+# VS Code settings
+#################################
+.vscode/
+.history/
+
+#################################
+# Rider settings
+#################################
+.idea/
+*.sln.iml
+
+#################################
+# Visual Studio settings
+#################################
+.vs/
+
+#################################
+# DotCover coverage results
+#################################
+*.dotCover
+
+#################################
+# ReSharper files
+#################################
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+#################################
+# NUnit
+#################################
+TestResult.xml
+nunit-*.xml
+
+#################################
+# MS Test
+#################################
+TestResults/
+
+#################################
+# ASP.NET Scaffolding
+#################################
+ScaffoldingReadMe.txt
+
+#################################
+# NuGet
+#################################
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+#################################
+# Rider & VS Code local history
+#################################
+.idea/
+.vscode/
+.localhistory/
+
+#################################
+# Windows image file caches
+#################################
+Thumbs.db
+ehthumbs.db
+
+#################################
+# Windows Installer files
+#################################
+*.cab
+*.msi
+*.msm
+*.msp
+
+#################################
+# Windows shortcuts
+#################################
+*.lnk
+
+#################################
+# Rider Plugin Cache
+#################################
+.idea/.idea.DataStorage/
+
+#################################
+# Other
+#################################
+*.DS_Store
+*.orig
+*.bak
+*.tmp
+*.swp
