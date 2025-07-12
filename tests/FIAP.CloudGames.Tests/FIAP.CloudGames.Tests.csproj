@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
+	  
     <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
+	<IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FIAP.CloudGames.Application\FIAP.CloudGames.Application.csproj" />
-    <ProjectReference Include="..\FIAP.CloudGames.Domain\FIAP.CloudGames.Domain.csproj" />
+    <ProjectReference Include="..\..\src\FIAP.CloudGames.Application\FIAP.CloudGames.Application.csproj" />
+    <ProjectReference Include="..\..\src\FIAP.CloudGames.Domain\FIAP.CloudGames.Domain.csproj" />
   </ItemGroup>
 
 </Project>

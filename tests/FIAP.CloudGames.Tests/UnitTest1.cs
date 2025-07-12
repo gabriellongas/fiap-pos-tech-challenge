@@ -1,4 +1,4 @@
-namespace FIAP.CloudGames.Tests;
+﻿namespace FIAP.CloudGames.Tests;
 
 public class UnitTest1
 {
