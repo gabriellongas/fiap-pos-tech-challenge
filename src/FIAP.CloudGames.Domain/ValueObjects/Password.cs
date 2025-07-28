@@ -36,6 +36,14 @@ public sealed class Password : IEquatable<Password>
         return new Password(hash);
     }
 
+    public static Password FromHashed(string hash)
+    {
+        if (string.IsNullOrWhiteSpace(hash))
+            throw new ArgumentException("Hash inválido.");
+
+        return new Password(hash);
+    }
+
     //Verifies if the provided raw password matches the hashed password
     public bool Verify(string rawPassword)
     {
