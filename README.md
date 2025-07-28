@@ -31,4 +31,12 @@ Esta seção descreve as ferramentas utilizadas ao longo do desenvolvimento do p
 
 ---
 ## ⚙️ Como Executar
-TBD
+
+Para executar o projeto, primeiramente é necessário ter o Docker instalado na máquina.
+É possível instalar o docker através da página de instalação do [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/).
+
+Com o Docker instalado, vá na pasta raiz do projeto, onde possui o arquivo *docker-compose.yml* e execute o comando abaixo em um terminal:
+
+```
+docker-compose up -d
+```
