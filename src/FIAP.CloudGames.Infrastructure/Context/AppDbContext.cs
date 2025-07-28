@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace FIAP.CloudGames.Infrastructure;
+namespace FIAP.CloudGames.Infrastructure.Context;
 
 public class AppDbContext: DbContext
 {
@@ -11,4 +11,7 @@ public class AppDbContext: DbContext
     {
         _configuration = configuration;
     }
+
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
 }

@@ -1,4 +1,4 @@
-using FIAP.CloudGames.Infrastructure;
+using FIAP.CloudGames.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
