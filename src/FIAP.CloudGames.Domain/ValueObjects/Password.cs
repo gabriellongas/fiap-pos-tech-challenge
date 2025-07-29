@@ -11,26 +11,25 @@ public sealed class Password : IEquatable<Password>
         Hash = hash;
     }
 
-    //Creates a new Password
     public static Password FromPlainText(string password)
     {
         if (string.IsNullOrWhiteSpace(password))
-            throw new ArgumentException("A Senha não pode estar vazia.");
+            throw new ArgumentException("A Senha não pode estar vazia.", nameof(password));
 
         if (password.Length < 8)
-            throw new ArgumentException("A senha deve ter pelo menos 8 caracteres.");
+            throw new ArgumentException("A senha deve ter pelo menos 8 caracteres.", nameof(password));
 
         if (!Regex.IsMatch(password, @"[a-z]"))
-            throw new ArgumentException("A senha deve conter pelo menos uma letra minúscula.");
+            throw new ArgumentException("A senha deve conter pelo menos uma letra minúscula.", nameof(password));
 
         if (!Regex.IsMatch(password, @"[A-Z]"))
-            throw new ArgumentException("A senha deve conter pelo menos uma letra maiúscula.");
+            throw new ArgumentException("A senha deve conter pelo menos uma letra maiúscula.", nameof(password));
 
         if (!Regex.IsMatch(password, @"[0-9]"))
-            throw new ArgumentException("A senha deve conter pelo menos um número.");
+            throw new ArgumentException("A senha deve conter pelo menos um número.", nameof(password));
 
         if (!Regex.IsMatch(password, @"[\W_]"))
-            throw new ArgumentException("A senha deve conter pelo menos um caractere especial.");
+            throw new ArgumentException("A senha deve conter pelo menos um caractere especial.", nameof(password));
 
         var hash = BCrypt.Net.BCrypt.HashPassword(password);
         return new Password(hash);
@@ -39,12 +38,11 @@ public sealed class Password : IEquatable<Password>
     public static Password FromHashed(string hash)
     {
         if (string.IsNullOrWhiteSpace(hash))
-            throw new ArgumentException("Hash inválido.");
+            throw new ArgumentException("Hash inválido.", nameof(hash));
 
         return new Password(hash);
     }
 
-    //Verifies if the provided raw password matches the hashed password
     public bool Verify(string rawPassword)
     {
         return BCrypt.Net.BCrypt.Verify(rawPassword, Hash);

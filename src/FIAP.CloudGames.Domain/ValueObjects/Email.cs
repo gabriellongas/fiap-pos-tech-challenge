@@ -18,10 +18,10 @@ public sealed class Email : IEquatable<Email>
     public static Email Create(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
-            throw new ArgumentException("O Email não pode estar vazio.");
+            throw new ArgumentException("O Email não pode estar vazio.", nameof(email));
 
         if (!EmailRegex.IsMatch(email))
-            throw new ArgumentException("Formato de Email inválido.");
+            throw new ArgumentException("Formato de Email inválido.", nameof(email));
 
         return new Email(email.Trim());
     }

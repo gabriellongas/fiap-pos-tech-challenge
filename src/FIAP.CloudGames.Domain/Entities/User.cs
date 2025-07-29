@@ -6,19 +6,25 @@ public class User
 {
     public Guid Id { get; set; }
 
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
-    public required Email Email { get; set; }
+    public Email Email { get; set; }
 
-    public required string PasswordHash { get; set; }
+    public Password Password { get; set; }
 
-    public required string Role { get; set; }
+    public string Role { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
-    User()
+    public User(string name, Email email, Password password, string role)
     {
         Id = Guid.NewGuid();
-        CreatedAt = DateTime.UtcNow;
+        CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"));
+        Name = name;
+        Email = email;
+        Password = password;
+        Role = role;
     }
+
+    private User() {  }
 }
