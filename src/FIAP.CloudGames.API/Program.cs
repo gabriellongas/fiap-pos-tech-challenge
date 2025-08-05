@@ -119,7 +119,6 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    throw new Exception("Erro de teste!");
     var forecast =  Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
