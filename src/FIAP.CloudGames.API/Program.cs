@@ -1,3 +1,4 @@
+using FIAP.CloudGames.API.Middleware;
 using FIAP.CloudGames.Domain.Interfaces;
 using FIAP.CloudGames.Infrastructure.Configuration.Auth;
 using FIAP.CloudGames.Infrastructure.Context;
@@ -90,6 +91,8 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -116,6 +119,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
+    throw new Exception("Erro de teste!");
     var forecast =  Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
