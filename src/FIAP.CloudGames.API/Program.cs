@@ -1,3 +1,4 @@
+using FIAP.CloudGames.API.Middleware;
 using FIAP.CloudGames.Domain.Interfaces;
 using FIAP.CloudGames.Infrastructure.Configuration.Auth;
 using FIAP.CloudGames.Infrastructure.Context;
@@ -89,6 +90,8 @@ builder.Services.AddAuthorization(options =>
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
