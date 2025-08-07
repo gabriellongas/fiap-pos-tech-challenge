@@ -1,4 +1,5 @@
-﻿using FIAP.CloudGames.Domain.ValueObjects;
+﻿using FIAP.CloudGames.Domain.Enums;
+using FIAP.CloudGames.Domain.ValueObjects;
 
 namespace FIAP.CloudGames.Domain.Entities;
 
@@ -12,11 +13,11 @@ public class User
 
     public Password Password { get; set; }
 
-    public string Role { get; set; }
+    public UserRoles Role { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
-    public User(string name, Email email, Password password, string role)
+    public User(string name, Email email, Password password, UserRoles role)
     {
         Id = Guid.NewGuid();
         CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"));
