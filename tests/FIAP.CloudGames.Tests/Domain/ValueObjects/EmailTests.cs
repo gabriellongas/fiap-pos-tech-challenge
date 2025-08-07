@@ -23,7 +23,7 @@ namespace FIAP.CloudGames.Tests.Domain.ValueObjects
         public void Create_EmptyOrNullEmail_ShouldThrowArgumentException(string? invalidEmail)
         {
             var ex = Assert.Throws<ArgumentException>(() => Email.Create(invalidEmail!));
-            Assert.Equal("O Email não pode estar vazio.", ex.Message);
+            Assert.Equal("O Email não pode estar vazio. (Parameter 'email')", ex.Message);
         }
 
         [Theory]
@@ -35,7 +35,7 @@ namespace FIAP.CloudGames.Tests.Domain.ValueObjects
         public void Create_InvalidFormatEmail_ShouldThrowArgumentException(string invalidEmail)
         {
             var ex = Assert.Throws<ArgumentException>(() => Email.Create(invalidEmail));
-            Assert.Equal("Formato de Email inválido.", ex.Message);
+            Assert.Equal("Formato de Email inválido. (Parameter 'email')", ex.Message);
         }
 
         [Fact]

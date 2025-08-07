@@ -11,42 +11,42 @@ public class PasswordTests
     public void FromPlainText_ShouldThrowException_WhenPasswordIsEmpty(string senhaInvalida)
     {
         var ex = Assert.Throws<ArgumentException>(() => Password.FromPlainText(senhaInvalida));
-        Assert.Equal("A Senha não pode estar vazia.", ex.Message);
+        Assert.Equal("A Senha não pode estar vazia. (Parameter 'password')", ex.Message);
     }
 
     [Fact]
     public void FromPlainText_ShouldThrowException_WhenPasswordIsTooShort()
     {
         var ex = Assert.Throws<ArgumentException>(() => Password.FromPlainText("Ab1$e"));
-        Assert.Equal("A senha deve ter pelo menos 8 caracteres.", ex.Message);
+        Assert.Equal("A senha deve ter pelo menos 8 caracteres. (Parameter 'password')", ex.Message);
     }
 
     [Fact]
     public void FromPlainText_ShouldThrowException_WhenMissingLowercaseLetter()
     {
         var ex = Assert.Throws<ArgumentException>(() => Password.FromPlainText("ABC123$#"));
-        Assert.Equal("A senha deve conter pelo menos uma letra minúscula.", ex.Message);
+        Assert.Equal("A senha deve conter pelo menos uma letra minúscula. (Parameter 'password')", ex.Message);
     }
 
     [Fact]
     public void FromPlainText_ShouldThrowException_WhenMissingUppercaseLetter()
     {
         var ex = Assert.Throws<ArgumentException>(() => Password.FromPlainText("abc123$#"));
-        Assert.Equal("A senha deve conter pelo menos uma letra maiúscula.", ex.Message);
+        Assert.Equal("A senha deve conter pelo menos uma letra maiúscula. (Parameter 'password')", ex.Message);
     }
 
     [Fact]
     public void FromPlainText_ShouldThrowException_WhenMissingNumber()
     {
         var ex = Assert.Throws<ArgumentException>(() => Password.FromPlainText("Abcdef$#"));
-        Assert.Equal("A senha deve conter pelo menos um número.", ex.Message);
+        Assert.Equal("A senha deve conter pelo menos um número. (Parameter 'password')", ex.Message);
     }
 
     [Fact]
     public void FromPlainText_ShouldThrowException_WhenMissingSpecialCharacter()
     {
         var ex = Assert.Throws<ArgumentException>(() => Password.FromPlainText("Abcdef12"));
-        Assert.Equal("A senha deve conter pelo menos um caractere especial.", ex.Message);
+        Assert.Equal("A senha deve conter pelo menos um caractere especial. (Parameter 'password')", ex.Message);
     }
 
     [Fact]

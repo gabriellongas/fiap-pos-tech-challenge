@@ -1,11 +1,16 @@
 using FIAP.CloudGames.API.Middleware;
+using FIAP.CloudGames.Application.Interfaces;
+using FIAP.CloudGames.Application.Services;
 using FIAP.CloudGames.Domain.Interfaces;
+using FIAP.CloudGames.Domain.Interfaces.Repositories;
 using FIAP.CloudGames.Infrastructure.Configuration.Auth;
 using FIAP.CloudGames.Infrastructure.Context;
+using FIAP.CloudGames.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 
@@ -50,6 +55,13 @@ builder.Services.AddSwaggerGen(setup =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+#region Application Services Configuration
+
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IGameService, GameService>();
+
+builder.Services.AddControllers();
+#endregion
 
 #region JWT Authentication Configuration
 
@@ -72,7 +84,8 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtSettings.Issuer,
             ValidAudience = jwtSettings.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            RoleClaimType = ClaimTypes.Role,
         };
     });
 
@@ -111,46 +124,4 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.RequireAuthorization("AdminOnly")
-.WithOpenApi();
-
-app.MapPost("/api/auth/login", async (string email, string userId, IJwtTokenGenerator tokenGenerator) =>
-{
-    if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(userId))
-        return Results.BadRequest(new { Error = "Email e senha são obrigatórios." });
-
-    var token = tokenGenerator.GenerateToken(userId, email, "Usuario");
-
-    if (string.IsNullOrWhiteSpace(token))
-        return Results.StatusCode(500);
-
-    return Results.Ok(new { Token = token });
-})
-.WithName("Auth")
-.AllowAnonymous();
-
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
