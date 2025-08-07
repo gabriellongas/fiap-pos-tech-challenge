@@ -18,9 +18,13 @@ Esta seção descreve as ferramentas utilizadas ao longo do desenvolvimento do p
 - **[Visual Studio](https://visualstudio.microsoft.com/pt-br/) e [Jetbrains Rider](https://www.jetbrains.com/rider/):** bientes de desenvolvimento utilizados pelos membros da equipe para codificação em .NET 8.
 - **[Docker Desktop]():** Utilizado para containerizar a aplicação .NET, facilitando a criação de ambientes reprodutíveis, independentes do sistema operacional dos desenvolvedores.
 
+---
 
+## 📄 Documentação
+- EventStorming e Domain Storytelling do projeto: https://miro.com/app/board/uXjVIjBiF7Q=/?share_link_id=826571685187
 
 ---
+
 ## 🤝 Contribuidores
 
 - Eduarda Matias - [LinkedIn](https://www.linkedin.com/in/eduarda-matias/) e [Github](https://github.com/eduardamatias)
