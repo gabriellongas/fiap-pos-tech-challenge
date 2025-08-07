@@ -1,3 +1,4 @@
+using FIAP.CloudGames.API.Extensions;
 using FIAP.CloudGames.API.Middleware;
 using FIAP.CloudGames.Application.Interfaces;
 using FIAP.CloudGames.Application.Services;
@@ -9,7 +10,6 @@ using FIAP.CloudGames.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
 
@@ -19,37 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(setup =>
-{
-    setup.SwaggerDoc("v1", new OpenApiInfo { Title = $"FIAP.CloudGames - API (ambiente: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")})", Version = "v1" });
-
-    setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Description = "Informe o token JWT no formato: Bearer {seu_token}",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    setup.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                },
-                In = ParameterLocation.Header,
-                Name = "Authorization" // mais preciso aqui
-            },
-            Array.Empty<string>()
-        }
-    });
-
-});
+builder.Services.AddCustomSwagger();
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
