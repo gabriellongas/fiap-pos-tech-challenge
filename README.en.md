@@ -21,6 +21,11 @@ This section outlines the main tools used during the development of the project:
 
 ---
 
+## 📄 Documentation
+EventStorming and Domain Storytelling of the project: https://miro.com/app/board/uXjVIjBiF7Q=/?share_link_id=826571685187
+
+---
+
 ## 🤝 Contributors
 
 - Eduarda Matias - [LinkedIn](https://www.linkedin.com/in/eduarda-matias/) | [GitHub](https://github.com/eduardamatias)
@@ -32,4 +37,11 @@ This section outlines the main tools used during the development of the project:
 ---
 
 ## ⚙️ How to Run
-TBD
+To run the project, Docker must be installed on your machine.
+You can install Docker via the Docker Desktop installation page.
+
+With Docker installed, go to the root folder of the project, where the docker-compose.yml file is located, and run the following command in a terminal:
+
+docker-compose up -d
+This will create a SQL Server container ready to be used by the project.
+If you want to connect to the database instantiated in Docker, simply use the connection string named "DefaultConnection" found in the appsettings.json file.
