@@ -14,5 +14,6 @@ namespace FIAP.CloudGames.Domain.Interfaces.Repositories
         Task<User?> GetByIdAsync(Guid id);
         Task<User?> UpdateAsync(User user);
         Task DeleteAsync(Guid id);
+        Task<User?> GetByEmailAsync(string email);
     }
 }
