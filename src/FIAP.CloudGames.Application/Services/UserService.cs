@@ -18,10 +18,11 @@ namespace FIAP.CloudGames.Application.Services
         public async Task<User> CreateAsync(CreateUserDto dto)
         {
             var password = Password.FromPlainText(dto.Password);
+            var email = Email.Create(dto.Email);
 
             var user = new User(
                 dto.Name,
-                dto.Email,
+                email,
                 password,
                 dto.Role
             );

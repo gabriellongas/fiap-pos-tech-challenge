@@ -17,7 +17,8 @@ namespace FIAP.CloudGames.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,User")]
+        [AllowAnonymous]
+        //[Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAllAsync();
@@ -33,7 +34,6 @@ namespace FIAP.CloudGames.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,User")]
         [AllowAnonymous]
         public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
         {
