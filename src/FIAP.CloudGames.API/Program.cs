@@ -6,12 +6,14 @@ using FIAP.CloudGames.Domain.Interfaces;
 using FIAP.CloudGames.Domain.Interfaces.Repositories;
 using FIAP.CloudGames.Infrastructure.Configuration.Auth;
 using FIAP.CloudGames.Infrastructure.Context;
+using FIAP.CloudGames.Infrastructure.Logging;
 using FIAP.CloudGames.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -90,7 +92,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseSerilogRequestLogging();
+app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
