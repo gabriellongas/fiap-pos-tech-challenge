@@ -15,7 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Security.Claims;
 using System.Text;
-
+using Serilog;
+using FIAP.CloudGames.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +25,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCustomSwagger();
 
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext()
+        .WriteTo.Console();
+});
 
 #region Application Services Configuration
 
@@ -34,6 +43,9 @@ builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 #endregion
@@ -76,17 +88,6 @@ builder.Services.AddAuthorization(options =>
 
 #endregion
 
-
-Log.Logger = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .Enrich.WithMachineName()
-    .WriteTo.Console(outputTemplate:
-        "[{Timestamp:HH:mm:ss} {Level:u3}] {CorrelationId} {SourceContext} {Message:lj}{NewLine}{Exception}")
-    .CreateLogger();
-
-builder.Host.UseSerilog();
-
-
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
@@ -94,7 +95,9 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    db.Database.Migrate(); 
+
+    await UserSeeder.SeedAdminAsync(db);
 }
 
 // Configure the HTTP request pipeline.

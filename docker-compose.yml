@@ -12,5 +12,23 @@ services:
     networks:
       - backend
 
+  seq:
+    image: datalust/seq
+    container_name: seq
+    restart: unless-stopped
+    ports:
+      - "5341:80"
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_FIRSTRUN_ADMINPASSWORD: "admin123"
+    volumes:
+      - seq-data:/data
+    networks:
+      - backend
+
+volumes:
+  sqlserver-data:
+  seq-data:
+
 networks:
   backend:
