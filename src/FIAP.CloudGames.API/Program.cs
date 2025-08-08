@@ -1,3 +1,4 @@
+﻿using FIAP.CloudGames.API.Controllers;
 using FIAP.CloudGames.API.Extensions;
 using FIAP.CloudGames.API.Middleware;
 using FIAP.CloudGames.Application.Interfaces;
@@ -11,9 +12,9 @@ using FIAP.CloudGames.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Security.Claims;
 using System.Text;
-using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
 #endregion
@@ -72,6 +75,16 @@ builder.Services.AddAuthorization(options =>
 });
 
 #endregion
+
+
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+    .WriteTo.Console(outputTemplate:
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {CorrelationId} {SourceContext} {Message:lj}{NewLine}{Exception}")
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 
 var app = builder.Build();
