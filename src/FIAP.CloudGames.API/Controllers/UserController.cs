@@ -17,8 +17,7 @@ namespace FIAP.CloudGames.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        //[Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAllAsync();
