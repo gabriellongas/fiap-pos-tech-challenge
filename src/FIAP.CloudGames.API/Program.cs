@@ -30,6 +30,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddControllers();
 #endregion
 
@@ -70,7 +73,6 @@ builder.Services.AddAuthorization(options =>
 });
 
 #endregion
-
 
 var app = builder.Build();
 
