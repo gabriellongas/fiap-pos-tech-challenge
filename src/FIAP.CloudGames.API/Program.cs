@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 using Serilog;
+using FIAP.CloudGames.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -91,6 +92,8 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate(); 
+
+    await UserSeeder.SeedAdminAsync(db);
 }
 
 // Configure the HTTP request pipeline.
