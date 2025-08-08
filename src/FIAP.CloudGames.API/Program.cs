@@ -1,3 +1,4 @@
+﻿using FIAP.CloudGames.API.Controllers;
 using FIAP.CloudGames.API.Extensions;
 using FIAP.CloudGames.API.Middleware;
 using FIAP.CloudGames.Application.Interfaces;
@@ -11,6 +12,7 @@ using FIAP.CloudGames.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Security.Claims;
 using System.Text;
 using Serilog;
@@ -39,6 +41,8 @@ builder.Host.UseSerilog((context, services, configuration) =>
 
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
