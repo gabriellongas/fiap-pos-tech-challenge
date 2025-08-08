@@ -1,0 +1,62 @@
+﻿using FIAP.CloudGames.Application.Dtos;
+using FIAP.CloudGames.Application.Interfaces;
+using FIAP.CloudGames.Domain.Entities;
+using FIAP.CloudGames.Domain.Interfaces.Repositories;
+
+namespace FIAP.CloudGames.Application.Services
+{
+    public class UserService : IUserService
+    {
+        private readonly IUserRepository _userRepository;
+
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+        public async Task<User> CreateAsync(CreateUserDto dto)
+        {
+            var user = new User(
+                dto.Name,
+                dto.Email,
+                dto.Password,
+                dto.Role
+            );
+
+            await _userRepository.AddAsync(user);
+            return user;
+        }
+
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            return await _userRepository.GetAllAsync();
+        }
+
+        public async Task<User?> GetByIdAsync(Guid id)
+        {
+            return await _userRepository.GetByIdAsync(id);
+        }
+
+        public async Task<User?> UpdateAsync(UpdateUserDto dto)
+        {
+            var user = await _userRepository.GetByIdAsync(dto.Id);
+            if (user == null) return null;
+
+            user.Name = dto.Name;
+            user.Email = dto.Email;
+            user.Password = dto.Password;
+            user.Role = dto.Role;
+
+            return await _userRepository.UpdateAsync(user);
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null) return false;
+
+            await _userRepository.DeleteAsync(user.Id);
+            return true;
+        }
+    }
+}
