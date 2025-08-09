@@ -11,12 +11,13 @@ namespace FIAP.CloudGames.Tests.Application.UseCases.Games
     public class UserServiceTests
     {
         private readonly Mock<IUserRepository> _userRepositoryMock;
+        private readonly Mock<IGameRepository> _gameRepositoryMock;
         private readonly UserService _userService;
 
         public UserServiceTests()
         {
             _userRepositoryMock = new Mock<IUserRepository>();
-            _userService = new UserService(_userRepositoryMock.Object);
+            _userService = new UserService(_userRepositoryMock.Object, _gameRepositoryMock.Object);
         }
 
         [Fact]
@@ -50,7 +51,7 @@ namespace FIAP.CloudGames.Tests.Application.UseCases.Games
                 new User("Test", Email.Create("test@test.com"), Password.FromPlainText("Password!123"), UserRoles.User)
             };
 
-            _userRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(users);
+            _userRepositoryMock.Setup(r => r.GetAllWithLibraryAsync()).ReturnsAsync(users);
 
             var result = await _userService.GetAllAsync();
 

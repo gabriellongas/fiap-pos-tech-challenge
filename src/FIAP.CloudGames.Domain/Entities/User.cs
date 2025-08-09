@@ -17,6 +17,10 @@ public class User
 
     public DateTime CreatedAt { get; set; }
 
+    // NOVO: coleção da biblioteca do usuário (simétrica a Game.Owners)
+    // Issue #17
+    public ICollection<Game> Library { get; set; } = new List<Game>();
+
     public User(string name, Email email, Password password, UserRoles role)
     {
         Id = Guid.NewGuid();
@@ -28,4 +32,5 @@ public class User
     }
 
     private User() {  }
+
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace FIAP.CloudGames.Domain.Entities;
 
@@ -21,6 +22,8 @@ public class Game
     public string Developer { get; set; }
 
     public string Publisher { get; set; }
+    [JsonIgnore]
+    public ICollection<User> Owners { get; set; } = new List<User>();
 
     public Game(string title, decimal price, string description, DateTime releaseDate, string developer, string publisher)
     {

@@ -20,16 +20,19 @@ namespace FIAP.CloudGames.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            return await _context.Set<User>().ToListAsync();
-        }
+        public async Task<IEnumerable<User>> GetAllWithLibraryAsync() =>
+            await _context.Set<User>().Include(u => u.Library).ToListAsync();
+
+        public async Task<User?> GetByIdWithLibraryAsync(Guid id)
+            => await _context.Set<User>()
+                             .Include(u => u.Library)
+                             .FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<User?> GetByIdAsync(Guid id)
         {
             return await _context.Set<User>().FindAsync(id);
         }
-
+        
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Set<User>().FirstOrDefaultAsync(u => u.Email == email);

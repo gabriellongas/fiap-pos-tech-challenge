@@ -31,5 +31,12 @@ public class AppDbContext: DbContext
                 v => v.Address,
                 v => Email.Create(v)
             );
+
+        // NOVO: relacionamento many-to-many User.Library <-> Game.Owners
+        // Issue #17
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Library)
+            .WithMany(g => g.Owners)
+            .UsingEntity(j => j.ToTable("UserGames"));
     }
 }

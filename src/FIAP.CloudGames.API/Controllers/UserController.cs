@@ -90,5 +90,15 @@ namespace FIAP.CloudGames.API.Controllers
             return NoContent();
         }
 
+        [HttpPost("{userId:guid}/library")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> PurchaseGame([FromRoute] Guid userId, [FromBody] PurchaseGameRequestDTO dto)
+        {
+            _logger.LogInformation("PurchaseGame solicitado {UserId} -> {GameId}", userId, dto.GameId);
+
+            await _userService.PurchaseGameAsync(userId, dto.GameId);
+            return NoContent();
+        }
+
     }
 }

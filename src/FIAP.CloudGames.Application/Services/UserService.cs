@@ -9,10 +9,12 @@ namespace FIAP.CloudGames.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IGameRepository _gameRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IGameRepository gameRepository) 
         {
             _userRepository = userRepository;
+            _gameRepository = gameRepository;
         }
 
         public async Task<User> CreateAsync(CreateUserDto dto)
@@ -33,12 +35,12 @@ namespace FIAP.CloudGames.Application.Services
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await _userRepository.GetAllAsync();
+            return await _userRepository.GetAllWithLibraryAsync();
         }
 
         public async Task<User?> GetByIdAsync(Guid id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            return await _userRepository.GetByIdWithLibraryAsync(id);
         }
 
 
@@ -62,6 +64,24 @@ namespace FIAP.CloudGames.Application.Services
 
             await _userRepository.DeleteAsync(user.Id);
             return true;
+        }
+
+        public async Task PurchaseGameAsync(Guid userId, Guid gameId)
+        {
+            var user = await _userRepository.GetByIdWithLibraryAsync(userId)
+                       ?? await _userRepository.GetByIdAsync(userId);
+            var game = await _gameRepository.GetByIdAsync(gameId);
+
+            if (user is null || game is null)
+                throw new InvalidOperationException("Usuário ou jogo não encontrado.");
+
+            user.Library ??= new List<Game>();
+
+            if (user.Library.Any(g => g.Id == gameId))
+                throw new InvalidOperationException("Jogo já está na biblioteca do usuário.");
+
+            user.Library.Add(game);
+            await _userRepository.UpdateAsync(user);
         }
     }
 }

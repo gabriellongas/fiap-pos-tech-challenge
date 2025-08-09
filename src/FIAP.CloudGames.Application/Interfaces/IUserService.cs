@@ -10,5 +10,6 @@ namespace FIAP.CloudGames.Application.Interfaces
         Task<User> CreateAsync(CreateUserDto dto);
         Task<User?> UpdateAsync(UpdateUserDto dto);
         Task<bool> DeleteAsync(Guid id);
+        Task PurchaseGameAsync(Guid userId, Guid gameId);
     }
 }
