@@ -45,7 +45,7 @@ namespace FIAP.CloudGames.API.Controllers
 
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
         {
             _logger.LogInformation("Create user solicitado {Email}", dto.Email);
