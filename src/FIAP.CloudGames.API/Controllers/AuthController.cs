@@ -1,5 +1,6 @@
 ﻿using FIAP.CloudGames.Application.Dtos;
 using FIAP.CloudGames.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIAP.CloudGames.API.Controllers
@@ -16,6 +17,7 @@ namespace FIAP.CloudGames.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
             try
