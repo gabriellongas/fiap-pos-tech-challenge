@@ -10,10 +10,12 @@ namespace FIAP.CloudGames.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -28,32 +30,65 @@ namespace FIAP.CloudGames.API.Controllers
         [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetById(Guid id)
         {
+            _logger.LogInformation("GetById solicitado {UserId}", id);
+
             var user = await _userService.GetByIdAsync(id);
-            return user == null ? NotFound() : Ok(user);
+
+            if (user is null)
+            {
+                _logger.LogWarning("User não encontrado {UserId}", id);
+                return NotFound();
+            }
+
+            return Ok(user);
         }
+
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
         {
+            _logger.LogInformation("Create user solicitado {Email}", dto.Email);
+
             var createdUser = await _userService.CreateAsync(dto);
+
             return CreatedAtAction(nameof(GetById), new { id = createdUser.Id }, createdUser);
         }
+
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromBody] UpdateUserDto dto)
         {
+            _logger.LogInformation("Update user solicitado {UserId}", dto.Id);
+
             var updatedUser = await _userService.UpdateAsync(dto);
-            return updatedUser != null ? Ok(updatedUser) : NotFound();
+            if (updatedUser is null)
+            {
+                _logger.LogWarning("Update falhou, user não encontrado {UserId}", dto.Id);
+                return NotFound();
+            }
+
+            return Ok(updatedUser);
         }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
+            _logger.LogInformation("Delete user solicitado {UserId}", id);
+
             var deletedUser = await _userService.DeleteAsync(id);
-            return deletedUser ? NoContent() : NotFound();
+
+            if (!deletedUser)
+            {
+                _logger.LogWarning("Delete falhou, user não encontrado {UserId}", id);
+                return NotFound();
+            }
+
+            _logger.LogInformation("User deletado com sucesso {UserId}", id);
+            return NoContent();
         }
+
     }
 }
