@@ -2,6 +2,7 @@
 using FIAP.CloudGames.Application.Interfaces;
 using FIAP.CloudGames.Domain.Entities;
 using FIAP.CloudGames.Domain.Interfaces.Repositories;
+using FIAP.CloudGames.Domain.ValueObjects;
 
 namespace FIAP.CloudGames.Application.Services
 {
@@ -16,10 +17,13 @@ namespace FIAP.CloudGames.Application.Services
 
         public async Task<User> CreateAsync(CreateUserDto dto)
         {
+            var password = Password.FromPlainText(dto.Password);
+            var email = Email.Create(dto.Email);
+
             var user = new User(
                 dto.Name,
-                dto.Email,
-                dto.Password,
+                email,
+                password,
                 dto.Role
             );
 
@@ -36,6 +40,7 @@ namespace FIAP.CloudGames.Application.Services
         {
             return await _userRepository.GetByIdAsync(id);
         }
+
 
         public async Task<User?> UpdateAsync(UpdateUserDto dto)
         {

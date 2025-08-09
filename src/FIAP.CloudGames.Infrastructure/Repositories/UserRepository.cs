@@ -30,6 +30,11 @@ namespace FIAP.CloudGames.Infrastructure.Repositories
             return await _context.Set<User>().FindAsync(id);
         }
 
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Set<User>().FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task AddAsync(User user)
         {
             await _context.Set<User>().AddAsync(user);
