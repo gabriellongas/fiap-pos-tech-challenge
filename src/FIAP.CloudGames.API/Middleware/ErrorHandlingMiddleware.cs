@@ -23,7 +23,7 @@ namespace FIAP.CloudGames.API.Middleware
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            var response = new { message = "An error occurred while processing your request." };
+            var response = new { message = "An error occurred while processing your request. " + exception.Message };
             return httpContext.Response.WriteAsJsonAsync(response);
         }
     }
