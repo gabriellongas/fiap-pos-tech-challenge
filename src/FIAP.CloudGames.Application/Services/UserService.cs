@@ -47,9 +47,12 @@ namespace FIAP.CloudGames.Application.Services
             var user = await _userRepository.GetByIdAsync(dto.Id);
             if (user == null) return null;
 
+            var password = Password.FromPlainText(dto.Password);
+            var email = Email.Create(dto.Email);
+
             user.Name = dto.Name;
-            user.Email = dto.Email;
-            user.Password = dto.Password;
+            user.Email = email;
+            user.Password = password;
             user.Role = dto.Role;
 
             return await _userRepository.UpdateAsync(user);

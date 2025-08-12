@@ -7,8 +7,8 @@ namespace FIAP.CloudGames.Application.Dtos
     {
         public required Guid Id { get; set; }
         public string Name { get; set; }
-        public Email Email { get; set; }
-        public Password Password { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
         public UserRoles Role { get; set; }
     }
 }
