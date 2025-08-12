@@ -80,8 +80,8 @@ namespace FIAP.CloudGames.Tests.Application.UseCases.Games
             {
                 Id = id,
                 Name = "New",
-                Email = Email.Create("new@test.com"),
-                Password = Password.FromPlainText("Password!123"),
+                Email = "new@test.com",
+                Password = "Password!123",
                 Role = UserRoles.Admin
             };
 
