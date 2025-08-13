@@ -36,13 +36,48 @@ Esta seção descreve as ferramentas utilizadas ao longo do desenvolvimento do p
 ---
 ## ⚙️ Como Executar
 
-Para executar o projeto, primeiramente é necessário ter o Docker instalado na máquina.
-É possível instalar o docker através da página de instalação do [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/).
+### Pré-requisitos
+- **[Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/)** instalado.  
+- **.NET 8 SDK** (para executar a API localmente).
 
-Com o Docker instalado, vá na pasta raiz do projeto, onde possui o arquivo *docker-compose.yml* e execute o comando abaixo em um terminal:
+### 1) Clonar o repositório
 
+```bash
+git clone https://github.com/gabriellongas/fiap-pos-tech-challenge.git
+cd fiap-pos-tech-challenge
 ```
-docker-compose up -d
+
+### 2) Subir a infraestrutura local (Docker)
+Na raiz do projeto (onde está o docker-compose.yml), execute:
+
+```bash
+docker compose up -d
 ```
-Isto fará a criação de um container de SQL Server já pronto para ser utilizado pelo projeto.
-Caso queira conectar ao banco de dados instanciado no Docker, basta apenas utilizar a connection string com o o nome *"DefaultConnection"* dentro do arquivo  [`appsettings.json`](src/FIAP.CloudGames.API/appsettings.json).
+Isso sobe os serviços de apoio (ex.: SQL Server e o agregador de logs).
+
+### 3) Rodar a API
+Restaure e compile as dependências:
+
+```bash
+dotnet restore
+dotnet build
+```
+
+Logo em seguida execute co comando:
+
+```bash
+dotnet run --project .\src\FIAP.CloudGames.Api\FIAP.CloudGames.API.csproj
+```
+O dashboard do Swagger estará disponível em `http://localhost:5143/swagger`.
+
+### 4) Acessar os logs (Seq no Docker)
+Os logs da aplicação ficam disponíveis no serviço de logs do docker-compose.
+Para acessar, basta ir para `http://localhost:5341`.
+
+Os dados de login na ferramenta são:
+
+- User: admin
+- Senha: admin123
+
+Lá você poderá filtrar, pesquisar e visualizar os eventos gerados pela API em tempo real.
+
