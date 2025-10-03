@@ -26,3 +26,16 @@ jobs:
 
       - name: Run tests
         run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Docker Login
+        uses: docker/login-action@v3.6.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v6.18.0
+        with:
+          tags: 'gabriellongas/fiap-tech-challenge:latest'
+          context: .
+          push: true
