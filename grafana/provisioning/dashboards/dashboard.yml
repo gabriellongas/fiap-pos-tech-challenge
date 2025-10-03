@@ -1,0 +1,10 @@
+apiVersion: 1
+providers:
+  - name: 'cloudgames-dashboards'
+    folder: 'CloudGames'            # pasta que aparecerá na UI
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards

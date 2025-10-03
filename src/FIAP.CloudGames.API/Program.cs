@@ -15,7 +15,9 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Security.Claims;
 using System.Text;
-using Serilog;
+
+using Prometheus;
+
 using FIAP.CloudGames.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -109,7 +111,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpMetrics();
+app.MapMetrics("/metrics").AllowAnonymous();
+
+app.UseWhen(ctx => !ctx.Request.Path.StartsWithSegments("/metrics"),
+    b =>
+    {
+        b.UseHttpsRedirection();
+        b.UseAuthentication();
+        b.UseAuthorization();
+    });
+
 app.UseSerilogRequestLogging();
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseAuthentication();
