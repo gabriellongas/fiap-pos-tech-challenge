@@ -1,18 +1,16 @@
 ﻿version: '3.8'
 
 services:
-  api:
-    build: .
-    container_name: api
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
     environment:
-      - "ConnectionStrings__DefaultConnection=Server=bd-fiap-pos-tech-challenge.cva6qcgiw9ve.us-east-2.rds.amazonaws.com,1433;Database=TechChallengeDb;User Id=admin;Password=FiapTech!2025#;TrustServerCertificate=True;"
+      SA_PASSWORD: "FCG_P@ssw0rd"
+      ACCEPT_EULA: "Y"
     ports:
-      - "8080:8080"
+      - "1433:1433"
     networks:
       - backend
-    depends_on:
-      - seq
-    restart: unless-stopped
 
   seq:
     image: datalust/seq
