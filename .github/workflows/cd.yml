@@ -50,10 +50,9 @@ jobs:
           aws-region: us-east-1
 
       - name: Update ECS service with new image
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition-family: fiap-tech-challenge
-          service: fcg-service
-          cluster: fcg-cluster
-          image: gabriellongas/fiap-tech-challenge:latest
-          container-name: fcg-api
+        run: |
+          aws ecs update-service \
+            --cluster fcg-cluster \
+            --service fcg-service \
+            --force-new-deployment \
+            --region us-east-1
